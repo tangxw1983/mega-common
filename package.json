@@ -16,7 +16,7 @@
     "url": "https://github.com/tangxw1983/mega-common/issues"
   },
   "homepage": "https://github.com/tangxw1983/mega-common#readme",
-  "devDependencies": {
-    "nodejs-websocket": "^1.6.0"
+  "dependencies": {
+    "nodejs-websocket": "^1.7.1"
   }
 }
