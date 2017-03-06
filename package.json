@@ -1,0 +1,22 @@
+{
+  "name": "mega-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tangxw1983/mega-common.git"
+  },
+  "author": "tang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tangxw1983/mega-common/issues"
+  },
+  "homepage": "https://github.com/tangxw1983/mega-common#readme",
+  "devDependencies": {
+    "nodejs-websocket": "^1.6.0"
+  }
+}
