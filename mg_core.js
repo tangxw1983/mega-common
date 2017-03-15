@@ -1,5 +1,9 @@
 //some very frequest short function from cmp
 function console_log(){try{console.log.apply(console,arguments);}catch(ex){}}
+function isEmpty(o){if(o==null)return true;if(typeof(o)=='object'||typeof(o)=='array'){var t;for(t in o)return!1;return!0}else{return null;}}
+function ns(s,rr,c,i,k){var r=rr;if(null==r)r=/^u/.test(typeof window)?global:window;c=(s||"").split('.');for(i=0;i<c.length;i++){k=c[i];if(!k)break;r[k]||(r[k]={});r=r[k];}return r}
+function nst(s,r){var rt=ns(s,r);return isEmpty(rt)?null:rt;}
+function try_require(m){try{return require(m);}catch(ex){return null}}
 function argv2o(argv){
 	var argv_o={};
 	for(k in argv){
@@ -18,7 +22,6 @@ function argv2o(argv){
 	return argv_o;
 }
 function sha1(d){var l=0,a=0,f=[],b,c,g,h,p,e,m=[b=1732584193,c=4023233417,~b,~c,3285377520],n=[],k=unescape(encodeURI(d));for(b=k.length;a<=b;)n[a>>2]|=(k.charCodeAt(a)||128)<<8*(3-a++%4);for(n[d=b+8>>2|15]=b<<3;l<=d;l+=16){b=m;for(a=0;80>a;b=[[(e=((k=b[0])<<5|k>>>27)+b[4]+(f[a]=16>a?~~n[l+a]:e<<1|e>>>31)+1518500249)+((c=b[1])&(g=b[2])|~c&(h=b[3])),p=e+(c^g^h)+341275144,e+(c&g|c&h|g&h)+882459459,p+1535694389][0|a++/20]|0,k,c<<30|c>>>2,g,h])e=f[a-3]^f[a-8]^f[a-14]^f[a-16];for(a=5;a;)m[--a]=m[a]+b[a]|0}for(d="";40>a;)d+=(m[a>>3]>>4*(7-a++%8)&15).toString(16);return d}
-function ns(s,r,c,i,k){r=r||/^u/.test(typeof window)?global:window;c=(s||"").split('.');for(i=0;i<c.length;i++){k=c[i];if(!k)break;r[k]||(r[k]={});r=r[k];}return r}
 function date_pattern(fmt,dt){
 	if(!dt) dt=new Date();
 	var o = {
@@ -56,60 +59,6 @@ function date_pattern(fmt,dt){
 function string_endsWith(suffix){
 	return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
-/*
-	 function s2o(strJson) {
-	 var myjson=null;
-	 try{myjson=JSON;}catch(e){};
-	 if(myjson) return myjson.parse(strJson);
-	 return eval( "(" + strJson + ")");
-	 }
-	 function o2s(object){
-	 var myjson=null;
-	 try{myjson=JSON;}catch(e){};
-	 if(myjson) return myjson.stringify(object);
-	 if(null==object)return "null";
-	 var type = typeof object;
-	 if ('object' == type) { if (Array == object.constructor) type = 'array';
-	 else if (RegExp == object.constructor) type = 'regexp';
-	 else type = 'object'; }
-	 switch(type) {
-	 case 'undefined':
-	 case 'unknown':
-	 return; break;
-	 case 'function':
-	 case 'boolean':
-	 case 'regexp':
-	 return object.toString(); break;
-	 case 'number':
-	 return isFinite(object) ? object.toString() : 'null'; break;
-	 case 'string':
-	 return '"' + object.replace(/(\\|\")/g,"\\$1").replace(/\n|\r|\t/g, function(){ var a = arguments[0]; return (a == '\n') ? '\\n': (a == '\r') ? '\\r': (a == '\t') ? '\\t': "" }) + '"'; break;
-	 case 'object':
-	 if (object === null) return 'null';var pp="";var value ="";
-	 var results = []; 
-	 try{
-	 for (var property in object) {pp=object[property]; value = o2s(pp); if (value !== undefined) results.push('"'+property + '":' + value); };
-	 }catch(e){
-//_d_(property+":"+value+"\n"+results.join(','));
-}
-return '{' + results.join(',') + '}';
-break;
-case 'array':
-var results = [];
-if(object.length>0){
-for(var i = 0; i < object.length; i++) { 
-var value = o2s(object[i]);
-if (value !== undefined) results.push(value); };
-return '[' + results.join(',') + ']';
-}
-else{
-for(k in object) {var kk=k; var value = o2s(object[k]); if (value !== undefined) results.push('"'+kk+'":'+value); }
-return '{' + results.join(',') + '}';
-}
-break;
-}
-}
- */
 function s2o(s){try{return(new Function('return '+s))()}catch(ex){}}
 function o2s(o,l){
 	if(null==o)return "null";
@@ -124,20 +73,20 @@ function o2s(o,l){
 		case 'number':return isFinite(o)?o.toString():'null';break;
 		case 'object':
 		case 'array':
-									var r=[];
-									if(o.constructor==Array && o.length>=0){
-										for(var i=0;i<o.length;i++){var v=f(o[i],l-1);if(v!==undefined)r.push(v);};return '['+r.join(',')+']';
-									}
-									try{for(var p in o){v=f(o[p],l-1);if(v!==undefined)r.push('"'+p+'":'+v);}}catch(ex){return ""+ex;};
-									if(r.length==0 && (""+o)!=""){
-										//if really empty, let 'default' handle..
-									}else{
-										return '{'+r.join(',')+'}';
-									}
+			var r=[];
+			if(o.constructor==Array && o.length>=0){
+				for(var i=0;i<o.length;i++){var v=f(o[i],l-1);if(v!==undefined)r.push(v);};return '['+r.join(',')+']';
+			}
+			try{for(var p in o){v=f(o[p],l-1);if(v!==undefined)r.push('"'+p+'":'+v);}}catch(ex){return ""+ex;};
+			if(r.length==0 && (""+o)!=""){
+				//if really empty, let 'default' handle..
+			}else{
+				return '{'+r.join(',')+'}';
+			}
 		default:
-									//var s= o.toString?o.toString():(""+o);
-									var s= ""+o;
-									return '"'+s.replace(/(\\|\")/g,"\\$1").replace(/\n/g,"\\n").replace(/\r/g,"\\r")+'"';
+			//var s= o.toString?o.toString():(""+o);
+			var s= ""+o;
+			return '"'+s.replace(/(\\|\")/g,"\\$1").replace(/\n/g,"\\n").replace(/\r/g,"\\r")+'"';
 	}
 }
 function str_len(o){
@@ -200,7 +149,7 @@ function FormatMoney(moneyStr){
 	return rtn;
 }
 
-/*
+/* (@deprecated, use Promise/Q.js instead)
  * 异步调用时，有些地方可能忘记加上callback，或者出错未能调用到callback，造成业务流程中断。
  * 添加此方法处理未调用callback的情况。
  * 设置一定超时时间，若handler超过时间未调用callback，此函数调用callback保证业务流程继续。
@@ -228,9 +177,9 @@ function asyncDo(handler, callback) {
 	handler.call(null, cb);
 
 	checkTimer = setTimeout(function() {		
-			_d_("INFO", "Async Timeout", '' + handler);
-			cb("Async Timeout");
-			}, ASYNC_TIMEOUT);
+		_d_("INFO", "Async Timeout", '' + handler);
+		cb("Async Timeout");
+	}, ASYNC_TIMEOUT);
 }
 
 function formatResponse(err,data) {
@@ -257,7 +206,9 @@ function formatResponse(err,data) {
 	return ret;
 }
 var ajax={
-	x:function(){return new(self.XMLHttpRequest||ActiveXObject)("Microsoft.XMLHTTP");}
+	x:function(){var cls=nst('ActiveXObject')||nst('XMLHttpRequest',try_require('xmlhttprequest'));
+		var rt=new cls("Microsoft.XMLHTTP");
+		return rt;}
 	,send:function(u,f,m,a){var x=this.x();x.open(m,u,true);x.onerror=function(ex){f({STS:"KO",errmsg:"Network Failed."+ex},-1,u);};x.onreadystatechange=function(){if(x.readyState==4){f(x.responseText,x.status,u);}};if(m=='POST')x.setRequestHeader('Content-type','application/x-www-form-urlencoded');x.send(a);}
 	,get:function(url,func){this.send(url,func,'GET');}
 	,gets:function(url){var x=this.x();x.open('GET',url,false);x.send(null);return x.responseText;}
