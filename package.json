@@ -1,6 +1,6 @@
 {
   "name": "mega-common",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/tangxw1983/mega-common#readme",
   "dependencies": {
-    "nodejs-websocket": "^1.7.1"
+    "nodejs-websocket": "^1.7.1",
+    "q": "^1.4.1",
+    "xmlhttprequest": "^1.8.0"
   }
 }
