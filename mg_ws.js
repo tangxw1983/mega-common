@@ -293,7 +293,7 @@ function WS_GetConnAsync(ws_url,callback){
                 ws_conn = require("nodejs-websocket").connect(ws_url, function() {
                     _d_("联系上服务器"+ws_url+"，正在报到");
                     WS_Request(ws_conn
-                        ,{_c:"OnWSClientOpen", _m: "ping", _p: (new Date()).pattern("MMddhhmmss.S")}//[_c.]_m[(_p)]
+                        ,{"_c":"client",_m:"OnWSClientOpen",ping: (new Date()).pattern("MMddhhmmss.S")}//[_c.]_m[(_p)]
                         ,function(rto){
                             _d_("报到后服务器返回resp："+typeof(rto),rto);//连接性测试，对我们来说返回什么也不用鸟它...
                         }
@@ -414,7 +414,7 @@ function WS_Init(ws_url,ws_keepalive_checktime,reconn_callback,errBreak){
 				//默认处理
 				_d_("联系上服务器"+ws_url+"，正在报到");
 				WS_Request(_ws_conn
-				 ,{"_m":"OnWSClientOpen","ping":((new Date()).pattern("MMddhhmmss.S"))}//[_c.]_m[(_p)]
+				 ,{"_c":"client","_m":"OnWSClientOpen","ping":((new Date()).pattern("MMddhhmmss.S"))}//[_c.]_m[(_p)]
 				 ,function(rto){
 				 _d_("报到后服务器返回resp："+typeof(rto)+","+$.toJSON(rto));//连接性测试，对我们来说返回什么也不用鸟它...
 				 }
