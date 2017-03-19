@@ -249,7 +249,7 @@ function sortConnection(a,b) {
 	return a.usingCount - b.usingCount;
 }
 
-function WS_GetConnAsync(ws_url,options,callback){
+function WS_GetConnAsync(ws_url,callback){
 	if (!_ws_conn_pool_2[ws_url]) _ws_conn_pool_2[ws_url] = [];
 	var ws_conn_list = _ws_conn_pool_2[ws_url];
 	var ws_conn;
