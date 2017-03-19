@@ -15,7 +15,20 @@ function filterUnicode(quoted){
 }
 
 if(typeof(exports)!="undefined"){
-	_d_=console.log;
+	exports.options = {
+		debug: true,
+		debug_handler: console.log
+	};
+
+	_d_=function() {
+		if (exports.options && exports.options.debug) {
+			if (typeof exports.options.debug_handler == "function") {
+				exports.options.debug_handler.apply(null, arguments);
+			} else {
+				console.log.apply(null, arguments);
+			}
+		}
+	};
 
 	mg_core=require("./mg_core.js");
 	s2o=mg_core.s2o;
@@ -236,7 +249,7 @@ function sortConnection(a,b) {
 	return a.usingCount - b.usingCount;
 }
 
-function WS_GetConnAsync(ws_url,callback){
+function WS_GetConnAsync(ws_url,options,callback){
 	if (!_ws_conn_pool_2[ws_url]) _ws_conn_pool_2[ws_url] = [];
 	var ws_conn_list = _ws_conn_pool_2[ws_url];
 	var ws_conn;
@@ -306,7 +319,7 @@ function WS_GetConnAsync(ws_url,callback){
                 });
 
                 ws_conn.on("text", function (data_s) {
-                    _d_("on text",data_s);
+                    //_d_("on text",data_s);
                     try{
                         WS_OnMessage(ws_conn,data_s);
                     }catch(ex){
