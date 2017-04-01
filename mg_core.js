@@ -101,7 +101,7 @@ function UniqTimeSeq(){
 		this._timeseq_lock=0;
 	}
 	//临时算法
-	var _now=(new Date()).pattern("yyyyMMddhhmmss");
+	var _now=(new Date()).pattern("yyyyMMddHHmmss");
 	return ""+_now+"."+((++ this._timeseq_lock) % 99999);
 
 	//盲加也还不一定是原子的..但已经足够了，所以...先就这样吧，js端没什么好的Mutex方法，而我也相信在一毫秒里面单机能做x个运算，在2014-2024年是不可能的，
