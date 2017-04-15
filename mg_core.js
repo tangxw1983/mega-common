@@ -204,9 +204,7 @@ function formatResponse(err,data) {
 	return ret;
 }
 var ajax={
-	x:function(){var cls=nst('ActiveXObject')||nst('XMLHttpRequest',try_require('xmlhttprequest'));
-		var rt=new cls("Microsoft.XMLHTTP");
-		return rt;}
+	x:function(){var cls=nst('ActiveXObject')||nst('XMLHttpRequest',try_require('xmlhttprequest'));return new cls("Microsoft.XMLHTTP");}
 	,send:function(u,f,m,a){var x=this.x();x.open(m,u,true);x.onerror=function(ex){f({STS:"KO",errmsg:"Network Failed."+ex},-1,u);};x.onreadystatechange=function(){if(x.readyState==4){f(x.responseText,x.status,u);}};if(m=='POST')x.setRequestHeader('Content-type','application/x-www-form-urlencoded');x.send(a);}
 	,get:function(url,func){this.send(url,func,'GET');}
 	,gets:function(url){var x=this.x();x.open('GET',url,false);x.send(null);return x.responseText;}
